@@ -6,14 +6,20 @@ Source: https://sketchfab.com/3d-models/apple-iphone-15-pro-max-black-df17520841
 Title: Apple iPhone 15 Pro Max Black
 */
 
-import * as THREE from 'three'
-import { ModelState } from '@/lib/interface'
-import React, { useEffect } from 'react'
-import { useGLTF, useTexture } from '@react-three/drei'
+import * as THREE from 'three';
+import { ModelState } from '@/lib/interface';
+import React, { useEffect } from 'react';
+import { useGLTF, useTexture } from '@react-three/drei';
 
-const Model: React.FC<{ item: ModelState, scale: number[], size: string }> = (props) => {
-    const { nodes, materials } = useGLTF('/models/scene.glb')
-    const texture = useTexture(props.item.img)
+interface ModelProps {
+    item: ModelState;
+    scale: [number, number, number];
+    size: string;
+}
+
+const Model: React.FC<ModelProps> = (props) => {
+    const { nodes, materials } = useGLTF('/models/scene.glb') as any;
+    const texture = useTexture(props.item.img);
 
     useEffect(() => {
         Object.entries(materials).map((material: any) => {
@@ -30,7 +36,6 @@ const Model: React.FC<{ item: ModelState, scale: number[], size: string }> = (pr
             material[1].needsUpdate = true;
         });
     }, [materials, props.item]);
-
     return (
         <group {...props} dispose={null}>
             <mesh
@@ -253,9 +258,9 @@ const Model: React.FC<{ item: ModelState, scale: number[], size: string }> = (pr
                 scale={0.01}
             />
         </group>
-    )
+    );
 }
 
-export default Model
+export default Model;
 
-useGLTF.preload('/models/scene.glb')
+useGLTF.preload('/models/scene.glb');
